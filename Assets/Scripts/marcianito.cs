@@ -11,16 +11,15 @@ public class marcianito : MonoBehaviour
     public GameObject shot;
     public Transform shotspawn;
 
-    // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("Move", 0.1f, 0.3f);
+        //InvokeRepeating("Move", 0.1f, 0.3f);
         enemyh= GetComponent<Transform>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        Move();
         if (Time.time > nextfe)
         {
             nextfe = Time.time + frate;
@@ -34,22 +33,22 @@ public class marcianito : MonoBehaviour
         {
             baja = false;
         }
-            if (enemyh.position.x<= -lado || enemyh.position.x >=lado)
-            {
-            if (baja == false)
-            {
-                espeed = -espeed;
-                enemyh.position += Vector3.down * 0.5f;
-                baja = true;
-            }
+        if (enemyh.position.x <= -lado || enemyh.position.x >= lado)
+        {
+        if (baja == false)
+        {
+            espeed = -espeed;
+            enemyh.position += Vector3.down * 0.5f;
+            baja = true;
+        }
                 
-            }
+        }
             
-            if (enemyh.position.y <= suelo)
-            {
-                //-vida
-            }
-        enemyh.position += Vector3.right * espeed;
+        if (enemyh.position.y <= suelo)
+        {
+            //-vida
+        }
+        enemyh.position += Vector3.right * espeed * Time.fixedDeltaTime;
     }
 
     

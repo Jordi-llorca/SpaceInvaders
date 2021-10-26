@@ -4,34 +4,22 @@ using UnityEngine;
 
 public class balaE : MonoBehaviour
 {
-    public Rigidbody2D rb;
     public float bspeed;
-    private Transform bullet;
     public float suelo;
 
-    private void Start()
-    {
-        bullet = GetComponent<Transform>();
-    }
     void FixedUpdate()
-
     {
-        rb.AddForce(transform.up * bspeed, ForceMode2D.Impulse);
-        if (bullet.position.y >= suelo)
+        transform.Translate(Vector3.down * bspeed * Time.deltaTime);
+        if (transform.position.y <= suelo)
         {
             Destroy(gameObject);
         }
-
-
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "player")
+        if (other.tag == "Player" || other.tag == "Bala")
         {
             Destroy(gameObject);
-            Score.score -= 10;
         }
     }
-
-
 }

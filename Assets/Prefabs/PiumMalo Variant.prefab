@@ -1,20 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &606017696261663928
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3817360721713629872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd4af8761eb3484d9ea4feb056ae44c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 3403949978570017007}
-  bspeed: 0
-  suelo: 0
 --- !u!1001 &5711003636800159486
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27,12 +12,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3230222800407819559, guid: bd93594efe47ed243899f6a09a389798, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.9949102
+      objectReference: {fileID: 0}
+    - target: {fileID: 3230222800407819559, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.0354
       objectReference: {fileID: 0}
     - target: {fileID: 3230222800407819559, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.698
+      value: -2.5786
       objectReference: {fileID: 0}
     - target: {fileID: 3230222800407819559, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: m_LocalPosition.z
@@ -68,15 +57,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4415913445958185675, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: m_Size.x
-      value: 1.0171032
+      value: 0.04233229
+      objectReference: {fileID: 0}
+    - target: {fileID: 4415913445958185675, guid: bd93594efe47ed243899f6a09a389798, type: 3}
+      propertyPath: m_Size.y
+      value: 0.21818686
       objectReference: {fileID: 0}
     - target: {fileID: 4415913445958185675, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: m_Offset.x
-      value: 0.00750497
+      value: 0.0075049438
       objectReference: {fileID: 0}
     - target: {fileID: 4415913445958185675, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: m_Offset.y
-      value: 0.029256344
+      value: 0.0021793842
       objectReference: {fileID: 0}
     - target: {fileID: 8036269079233250620, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: techo
@@ -90,6 +83,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: PiumMalo Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 8915001722861712462, guid: bd93594efe47ed243899f6a09a389798, type: 3}
+      propertyPath: m_TagString
+      value: BalaEnemigo
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915466303367154400, guid: bd93594efe47ed243899f6a09a389798, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915466303367154400, guid: bd93594efe47ed243899f6a09a389798, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8915466303367154400, guid: bd93594efe47ed243899f6a09a389798, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8915466303367154400, guid: bd93594efe47ed243899f6a09a389798, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -102,8 +111,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8915001722861712462, guid: bd93594efe47ed243899f6a09a389798, type: 3}
   m_PrefabInstance: {fileID: 5711003636800159486}
   m_PrefabAsset: {fileID: 0}
---- !u!50 &3403949978570017007 stripped
-Rigidbody2D:
-  m_CorrespondingSourceObject: {fileID: 6952658376160622097, guid: bd93594efe47ed243899f6a09a389798, type: 3}
-  m_PrefabInstance: {fileID: 5711003636800159486}
+--- !u!114 &606017696261663928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3817360721713629872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd4af8761eb3484d9ea4feb056ae44c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bspeed: 2
+  suelo: -20

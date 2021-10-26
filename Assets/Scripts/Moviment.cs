@@ -11,21 +11,23 @@ public class Moviment : MonoBehaviour
     public Transform shotSpawn;
     public Joystick js;
     public Rigidbody2D rb;
-    public float maxBound,minBound,speed,fire;
+    public float maxBound, minBound, speed, fire;
     public GameObject shot;
-    
-    // Start is called before the first frame update
+
+
     private void Start()
     {
         player = GetComponent<Transform>();
         rb = GetComponent<Rigidbody2D>();
     }
-    // Update is called once per frame
-    void FixedUpdate(){
-        
-        if (js.Horizontal!=0f) {
-            tspeed=js.Horizontal * speed;
-            rb.AddForce(transform.right*tspeed, ForceMode2D.Impulse);
+
+    void FixedUpdate()
+    {
+
+        if (js.Horizontal != 0f)
+        {
+            tspeed = js.Horizontal * speed;
+            rb.AddForce(transform.right * tspeed, ForceMode2D.Impulse);
         }
         else
         {
@@ -33,10 +35,10 @@ public class Moviment : MonoBehaviour
         }
         if (player.position.x < minBound && tspeed < 0)
             rb.velocity = new Vector2(0.0f, 0.0f);
-        else if(player.position.x > maxBound && tspeed > 0)
+        else if (player.position.x > maxBound && tspeed > 0)
         {
             rb.velocity = new Vector2(0.0f, 0.0f);
-        }      
+        }
 
     }
     private void Update()
@@ -46,5 +48,12 @@ public class Moviment : MonoBehaviour
             nextf = Time.time + fire;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+
+        if (other.tag == "BalaEnemigo")
+            GameManager.Instance.UpdateLives();
     }
 }
