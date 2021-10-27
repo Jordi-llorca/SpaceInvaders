@@ -7,6 +7,7 @@ public class SimpleAnimator : MonoBehaviour
     public Sprite[] sprites;
     public float animationTime = 0.25f;
 
+    private float currentTime = 0;
     private SpriteRenderer spriteRenderer;
     private float timer;
     private int currentIndex;
@@ -20,7 +21,7 @@ public class SimpleAnimator : MonoBehaviour
     private void Update()
     {
         timer += Time.deltaTime;
-        if (timer < animationTime) 
+        if (timer < currentTime) 
         {
             return;
         }
@@ -28,5 +29,7 @@ public class SimpleAnimator : MonoBehaviour
         spriteRenderer.sprite = sprites[currentIndex++ % sprites.Length];
         timer = 0f;
     }
+
+
 }
 

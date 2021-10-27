@@ -5,17 +5,13 @@ using UnityEngine.UI;
 
 public class Score : MonoBehaviour
 {
-    public static float score = 0;
-    private Text scoreText;
-    // Start is called before the first frame update
+    private float score = 0;
+    public Text scoreText;
+
     void Start()
     {
-        scoreText = GetComponent<Text>();
+        score = PlayerPrefs.GetInt("Score");
+        scoreText.text = score.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        scoreText.text = score + "pts";
-    }
 }

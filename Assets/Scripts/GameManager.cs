@@ -10,6 +10,11 @@ public class GameManager : MonoBehaviour
     internal static GameManager Instance;
 
     [SerializeField]
+    private AudioSource sfx;
+
+    internal void PlaySfx(AudioClip clip) => sfx.PlayOneShot(clip);
+
+    [SerializeField]
     private int maxLives = 3;
 
     [SerializeField]
@@ -19,22 +24,49 @@ public class GameManager : MonoBehaviour
     private GameObject img;
 
     public int score=0;
-    public int lives;
+    public int lives = 3;
     public Text scoreText;
+
+    [SerializeField]
+    private GameObject explosionPrefab;
+
+    [SerializeField]
+    private float explosionTime = 1f;
+
+    [SerializeField]
+    private AudioClip explosionClip;
+
+    public int round = 0;
+
+    internal void CreateExplosion(Vector2 position)
+    {
+        PlaySfx(explosionClip);
+
+        var explosion = Instantiate(explosionPrefab, position,
+            Quaternion.Euler(0f, 0f, Random.Range(-180f, 180f)));
+        Destroy(explosion, explosionTime);
+    }
 
     internal void UpdateLives()
     {
         lives = Mathf.Clamp(lives - 1, 0, maxLives);
         if (lives == 0)
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+        {
+            LevelLoader.Instance.LoadNextLevel();
+        }
 
         img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives - 1]);
-        
-        
+    }
+
+    public void Setup()
+    {
+        score = 0;
+        lives = maxLives;
     }
 
     private void Awake()
     {
+
         if (Instance == null)
         {
             Instance = this;
@@ -43,13 +75,17 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        lives = maxLives;
         img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives - 1]);
+
+        lives = PlayerPrefs.GetInt("Lives");
+        score = PlayerPrefs.GetInt("Score");
+
+        UpdateScore(0);
     }
-    public void UpdateScore()
+
+    public void UpdateScore(int add)
     {
-        scoreText = GetComponent<Text>();
-        scoreText.text = score + "pts";
+        score += add;
+        scoreText.text = score.ToString();
     }
 }

@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Moviment : MonoBehaviour
 {
+    [SerializeField]
+    private AudioClip shooting;
+
+    [SerializeField]
+    private AudioClip hit;
+
     private Transform player;
     private float tspeed;
     private float nextf;
@@ -26,16 +32,6 @@ public class Moviment : MonoBehaviour
 
     void FixedUpdate()
     {
-        
-        /*if (js.Horizontal != 0f)
-        {
-            tspeed = js.Horizontal * speed;
-            rb.AddForce(transform.right * tspeed, ForceMode2D.Impulse);
-        }
-        else
-        {
-            rb.velocity = new Vector2(0.0f, 0.0f);
-        }*/
         if (player.position.x < minBound && tspeed < 0)
             rb.velocity = new Vector2(0.0f, 0.0f);
         else if (player.position.x > maxBound && tspeed > 0)
@@ -50,6 +46,8 @@ public class Moviment : MonoBehaviour
         {
             nextf = Time.time + fire;
             Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+            GetComponent<Animator>().SetTrigger("Shoot");
+            GameManager.Instance.PlaySfx(shooting);
         }
         if (Input.touchCount > 0)
         {
@@ -67,8 +65,11 @@ public class Moviment : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         if (other.tag == "BalaEnemigo")
+        {
+            GameManager.Instance.PlaySfx(hit);
             GameManager.Instance.UpdateLives();
+        }
+            
     }
 }

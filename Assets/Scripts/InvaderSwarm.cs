@@ -21,6 +21,8 @@ public class InvaderSwarm : MonoBehaviour
 
     [SerializeField]
     private int columnCount = 11;
+    [SerializeField]
+    private int rowCount;
 
     [SerializeField]
     private float ySpacing;
@@ -39,16 +41,31 @@ public class InvaderSwarm : MonoBehaviour
     private float speedFactor = 10f;
 
     private Transform[,] invaders;
-    private int rowCount;
     private bool isMovingRight = true;
     private float maxX;
     private float currentX;
     private float xIncrement;
 
     public float finX;
+    public float velY;
 
     [SerializeField]
     private BulletSpawner bulletSpawnerPrefab;
+
+    private Dictionary<string, int> pointsMap;
+    private int killCount;
+
+    public float velperscore = 0.2f;
+
+    internal void IncreaseDeathCount()
+    {
+        killCount++;
+        if (killCount >= invaders.Length)
+        {
+            LevelLoader.Instance.ReloadLevel();
+            return;
+        }
+    }
 
     internal Transform GetInvader(int row, int column)
     {
@@ -59,6 +76,15 @@ public class InvaderSwarm : MonoBehaviour
         }
 
         return invaders[row, column];
+    }
+
+    internal int GetPoints(string alienName)
+    {
+        if (pointsMap.ContainsKey(alienName))
+        {
+            return pointsMap[alienName];
+        }
+        return 0;
     }
 
     private void Awake()
@@ -80,37 +106,34 @@ public class InvaderSwarm : MonoBehaviour
         GameObject swarm = new GameObject { name = "Swarm" };
         Vector2 currentPos = spawnStartPoint.position;
 
-        foreach (var invaderType in invaderTypes)
-        {
-            rowCount += invaderType.rowCount;
-        }
         maxX = minX + finX * xSpacing * columnCount;
         currentX = minX;
         invaders = new Transform[rowCount, columnCount];
 
+        pointsMap = new System.Collections.Generic.Dictionary<string, int>();
         int rowIndex = 0;
-        foreach (var invaderType in invaderTypes)
+        for (int i = 0; i < rowCount; i++)
         {
-            var invaderName = invaderType.name.Trim();
-            for (int i = 0, len = invaderType.rowCount; i < len; i++)
+            for (int j = 0; j < columnCount; j++)
             {
-                for (int j = 0; j < columnCount; j++)
-                {
-                    var invader = new GameObject() { name = invaderName };
-                    invader.AddComponent<SimpleAnimator>().sprites = invaderType.sprites;
-                    invader.transform.position = currentPos;
-                    invader.transform.SetParent(swarm.transform);
+                var invaderType = invaderTypes[Random.Range(0, invaderTypes.Length)];
+                var invaderName = invaderType.name.Trim();
+                pointsMap[invaderName] = invaderType.points;
+                var invader = new GameObject() { name = invaderName };
+                invader.AddComponent<SimpleAnimator>().sprites = invaderType.sprites;
+                invader.transform.position = currentPos;
+                invader.transform.SetParent(swarm.transform);
 
-                    invaders[rowIndex, j] = invader.transform;
-                    currentPos.x += xSpacing;
-                }
-
-                currentPos.x = minX;
-                currentPos.y -= ySpacing;
-
-                rowIndex++;
+                invaders[rowIndex, j] = invader.transform;
+                currentPos.x += xSpacing;
             }
-        }
+
+            currentPos.x = minX;
+            currentPos.y -= ySpacing;
+
+            rowIndex++;
+        }   
+        
 
         for (int i = 0; i < columnCount; i++)
         {
@@ -123,7 +146,7 @@ public class InvaderSwarm : MonoBehaviour
     }
     private void Update()
     {
-        xIncrement = speedFactor * Time.deltaTime;
+        xIncrement = (speedFactor + velperscore * GameManager.Instance.score) * Time.deltaTime;
         if (isMovingRight)
         {
             currentX += xIncrement;
@@ -164,6 +187,6 @@ public class InvaderSwarm : MonoBehaviour
     private void ChangeDirection()
     {
         isMovingRight = !isMovingRight;
-        MoveInvaders(0, -ySpacing * 0.5f);
+        MoveInvaders(0, -ySpacing * velY);
     }
 }

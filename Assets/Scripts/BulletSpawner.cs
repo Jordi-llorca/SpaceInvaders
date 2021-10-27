@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class BulletSpawner : MonoBehaviour
 {
     internal int currentRow;
-    public GameManager gm;
     internal int column;
 
     [SerializeField]
@@ -20,6 +19,9 @@ public class BulletSpawner : MonoBehaviour
     [SerializeField]
     private float maxTime;
 
+    [SerializeField]
+    private AudioClip shooting;
+
     private float timer;
     private float currentTime;
     private Transform followTarget;
@@ -33,6 +35,7 @@ public class BulletSpawner : MonoBehaviour
     private void Update()
     {
         transform.position = followTarget.position;
+        if (transform.position.y <= -1.5f) LevelLoader.Instance.LoadNextLevel();
 
         timer += Time.deltaTime;
         if (timer < currentTime)
@@ -41,8 +44,12 @@ public class BulletSpawner : MonoBehaviour
         }
 
         Instantiate(bulletPrefab, spawnPoint.position, Quaternion.identity);
+        GameManager.Instance.PlaySfx(shooting);
+
         timer = 0f;
         currentTime = Random.Range(minTime, maxTime);
+
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -52,11 +59,11 @@ public class BulletSpawner : MonoBehaviour
             return;
         }
 
+        GameManager.Instance.UpdateScore(InvaderSwarm.Instance.GetPoints(followTarget.gameObject.name));
+
         followTarget.GetComponentInChildren<SpriteRenderer>().enabled = false;
         currentRow = currentRow - 1;
-        gm.score += 10;
-        gm.UpdateScore();
- 
+
         if (currentRow < 0)
         {
             gameObject.SetActive(false);
@@ -65,5 +72,7 @@ public class BulletSpawner : MonoBehaviour
         {
             Setup();
         }
+
+        InvaderSwarm.Instance.IncreaseDeathCount();
     }
 }

@@ -7,6 +7,7 @@ TagManager:
   - Bala
   - BalaEnemigo
   - Enemy
+  - Enemy1
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 3688676313
+    locked: 0
+  - name: Loader
+    uniqueID: 208187599
     locked: 0
