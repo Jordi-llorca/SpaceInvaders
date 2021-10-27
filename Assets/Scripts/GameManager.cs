@@ -75,10 +75,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives - 1]);
+        
 
         lives = PlayerPrefs.GetInt("Lives");
         score = PlayerPrefs.GetInt("Score");
+
+        img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives - 1]);
 
         UpdateScore(0);
     }
