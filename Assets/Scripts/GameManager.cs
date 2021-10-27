@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -17,7 +18,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject img;
 
-    private int lives;
+    public int score=0;
+    public int lives;
+    public Text scoreText;
 
     internal void UpdateLives()
     {
@@ -26,6 +29,7 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
 
         img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives - 1]);
+        
         
     }
 
@@ -42,5 +46,10 @@ public class GameManager : MonoBehaviour
 
         lives = maxLives;
         img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives - 1]);
+    }
+    public void UpdateScore()
+    {
+        scoreText = GetComponent<Text>();
+        scoreText.text = score + "pts";
     }
 }

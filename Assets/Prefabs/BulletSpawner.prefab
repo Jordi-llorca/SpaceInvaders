@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7399a56431eaac7449a709ce5185e2fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 3817360721713629872, guid: 1a171ddbe51be134d9154661ffd39e55, type: 3}
+  bulletPrefab: {fileID: 2150366934917850753, guid: e3ea4ecbeb7b10546a9bee7b029682b5, type: 3}
   spawnPoint: {fileID: 7485711165238973748}
   minTime: 2
   maxTime: 7

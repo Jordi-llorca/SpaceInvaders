@@ -1,8 +1,11 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class BulletSpawner : MonoBehaviour
 {
     internal int currentRow;
+    public GameManager gm;
     internal int column;
 
     [SerializeField]
@@ -51,6 +54,9 @@ public class BulletSpawner : MonoBehaviour
 
         followTarget.GetComponentInChildren<SpriteRenderer>().enabled = false;
         currentRow = currentRow - 1;
+        gm.score += 10;
+        gm.UpdateScore();
+ 
         if (currentRow < 0)
         {
             gameObject.SetActive(false);
