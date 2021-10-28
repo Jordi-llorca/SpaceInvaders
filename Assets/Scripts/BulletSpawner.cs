@@ -35,7 +35,7 @@ public class BulletSpawner : MonoBehaviour
     private void Update()
     {
         transform.position = followTarget.position;
-        if (transform.position.y <= -1.5f) LevelLoader.Instance.LoadNextLevel();
+        if (transform.position.y <= -1f) LevelLoader.Instance.LoadNextLevel();
 
         timer += Time.deltaTime;
         if (timer < currentTime)
@@ -66,6 +66,8 @@ public class BulletSpawner : MonoBehaviour
 
         if (currentRow < 0)
         {
+            InvaderSwarm.Instance.updateMax(column);
+            InvaderSwarm.Instance.updateMin(column);
             gameObject.SetActive(false);
         }
         else

@@ -57,12 +57,17 @@ public class InvaderSwarm : MonoBehaviour
 
     public float velperscore = 0.2f;
 
+
+    private int firstCol = 0;
+    private int lastCol;
+    public int columnsDestroyed = 0;
+
     internal void IncreaseDeathCount()
     {
         killCount++;
         if (killCount >= invaders.Length)
         {
-            LevelLoader.Instance.ReloadLevel();
+            Start();
             return;
         }
     }
@@ -101,6 +106,11 @@ public class InvaderSwarm : MonoBehaviour
 
     private void Start()
     {
+        killCount = 0;
+        firstCol = 0;
+        lastCol = columnCount - 1;
+        columnsDestroyed = 0;
+
         minX = spawnStartPoint.position.x;
 
         GameObject swarm = new GameObject { name = "Swarm" };
@@ -109,6 +119,8 @@ public class InvaderSwarm : MonoBehaviour
         maxX = minX + finX * xSpacing * columnCount;
         currentX = minX;
         invaders = new Transform[rowCount, columnCount];
+
+        
 
         pointsMap = new System.Collections.Generic.Dictionary<string, int>();
         int rowIndex = 0;
@@ -144,9 +156,32 @@ public class InvaderSwarm : MonoBehaviour
             bulletSpawner.Setup();
         }
     }
+
+
+    public void updateMax(int col)
+    {
+        if (col != lastCol) return;
+        while (!invaders[0, lastCol].GetComponentInChildren<SpriteRenderer>().enabled && lastCol > firstCol)
+        {
+            lastCol--;
+            columnsDestroyed++;
+            maxX += xSpacing;
+        }
+    }
+    public void updateMin(int col)
+    {
+        if (col != firstCol) return;
+        while (!invaders[0, firstCol].GetComponentInChildren<SpriteRenderer>().enabled && firstCol < lastCol)
+        {
+            firstCol++;
+            columnsDestroyed++;
+            minX -= xSpacing;
+        }
+    }
+
     private void Update()
     {
-        xIncrement = (speedFactor + velperscore * GameManager.Instance.score) * Time.deltaTime;
+        xIncrement = (speedFactor + (velperscore * GameManager.Instance.score) + 0.5f * columnsDestroyed) * Time.deltaTime;
         if (isMovingRight)
         {
             currentX += xIncrement;

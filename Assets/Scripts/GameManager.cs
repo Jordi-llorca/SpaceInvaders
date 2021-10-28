@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     internal void PlaySfx(AudioClip clip) => sfx.PlayOneShot(clip);
 
     [SerializeField]
-    private int maxLives = 2;
+    private int maxLives = 3;
 
     [SerializeField]
     private Sprite [] livesLabel;
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     private GameObject img;
 
     public int score=0;
-    public int lives = 2;
+    public int lives = 3;
     public Text scoreText;
     
 
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
         lives = PlayerPrefs.GetInt("Lives");
         score = PlayerPrefs.GetInt("Score");
 
-        img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives]);
+        img.GetComponent<ChangeImageLives>().UpdateImage(livesLabel[lives - 1]);
 
         UpdateScore(0);
     }
